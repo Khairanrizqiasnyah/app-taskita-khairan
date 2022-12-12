@@ -21,24 +21,27 @@ export default AddNewScreen = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const [text, setText] = useState("DD/MM/YYYY");
+  const [text, setText] = useState("INI TEKS NJING");
+  const [text1, setText1] = useState("INI TEKS NJING");
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios')
     setDate(currentDate);
 
-    let tempDate = new Date(currentDate);
-    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-    let fTime = 'Hours:' + tempDate.getHours() + ' | Minutes: ' + temptDate.getMinutes();
-    setText(fDate + fTime)
+    const tempDate = new Date(currentDate);
+    const fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+    const fTime1 = tempDate.getHours() + ' Hours | ' + tempDate.getMinutes() + ' Minutes';
+    setText(fDate)
+    setText1(fTime1)
 
-    console.log(fDate + ' (' + ftime + ')')
+    console.log(fDate + ' (' + fTime1 + ')')
   }
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
   }
+
   return (
     <SafeAreaView style={{ backgroundColor: "#261863", flex: 1 }}>     
       <View style={style.bodyContent}>
@@ -59,7 +62,9 @@ export default AddNewScreen = ({ navigation }) => {
           <View>
             <Text style={style.summary}>Date</Text>
             <View style={{ flexDirection: "row" }}>
-              <Text numberOfLines={2} style={style.inputan}>{text}</Text>
+            <TouchableOpacity onPress={()=> onChange(setText)}>
+                <Text numberOfLines={2} style={style.inputan}>{text}</Text>
+            </TouchableOpacity>
 
               <TouchableOpacity onPress={() => showMode('date')}>
                 <View style={style.iconbg1}>
@@ -72,7 +77,9 @@ export default AddNewScreen = ({ navigation }) => {
           <View>
             <Text style={style.summary}>Time Start</Text>
             <View style={{ flexDirection: "row" }}>
-              <Text numberOfLines={2} style={style.inputan}>{text}</Text>
+            <TouchableOpacity onPress={()=> onChange(setText1)}>
+                <Text numberOfLines={2} style={style.inputan}>{text1}</Text>
+              </TouchableOpacity>
 
               <TouchableOpacity onPress={() => showMode("time")}>
                 <View style={style.iconbg}>
@@ -85,7 +92,10 @@ export default AddNewScreen = ({ navigation }) => {
           <View>
             <Text style={style.summary}>Time End</Text>
             <View style={{ flexDirection: "row" }}>
-              <Text numberOfLines={2} style={style.inputan}>{text}</Text>
+            <TouchableOpacity onPress={()=> onChange(setText1)}>
+                <Text numberOfLines={2} style={style.inputan}>{text1}</Text>
+              </TouchableOpacity>
+              
               
               <TouchableOpacity onPress={() => showMode("time")}>
                 <View style={style.iconbg}>
@@ -134,10 +144,10 @@ const style = StyleSheet.create({
     borderColor: "#261863",
     backgroundColor: "#DADADA",
     fontSize: 16,
-    paddingTop: 10,
+    paddingTop: 15,
     paddingRight: 170,
     paddingLeft: 15,
-    paddingBottom: 0,
+    paddingBottom: 15,
     marginRight: 15,
     marginBottom: 0,
     borderWidth: 1,

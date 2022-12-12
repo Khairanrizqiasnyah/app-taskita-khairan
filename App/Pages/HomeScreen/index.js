@@ -44,7 +44,7 @@ export default HomeScreen = () => {
       </View>
 
       <View style={{padding:15}}>
-        <Text style={{color:'white'}}>{displayMonth}</Text>
+        <Text style={{color:'white', textAlign: 'center', fontSize: 20}}>{displayMonth}</Text>
         <View style={{marginTop:10, flexDirection:'row', justifyContent:'space-between', paddingLeft:50, paddingRight:50}}>
           <MiniCard 
             isActive={true} 
@@ -64,9 +64,10 @@ export default HomeScreen = () => {
             
         </View>
       </View>
+      
       <View style={style.bodyContent}>
         <ScrollView style={{padding:30}}>
-          <Text>asdf</Text>
+          <Text></Text>
         </ScrollView>
       </View>
       

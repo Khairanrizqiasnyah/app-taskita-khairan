@@ -15,31 +15,38 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 
 export default TaskScreen = ({ navigation }) => {
-  const nama = useSelector((state) => state.user.nama);
-  const email = useSelector((state) => state.user.email);
-  const month = useSelector((state) => state.config.bulan);
-  const day = useSelector((state) => state.config.hari);
+  const nama = useSelector((state) => state.user.nama)
+  const email = useSelector((state) => state.user.email)
+  const month = useSelector((state) => state.config.bulan)
+  const day = useSelector((state) => state.config.hari)
   const curDate = new Date();
   const hari = curDate.getDay();
   const curMonth = curDate.getMonth();
+
   const hariSekarang = day[hari];
   const hariBesok = day[hari + 1];
   const hariLusa = day[hari + 2];
-  const tglSekarang = curDate.getDate();
-  const tglBesok = tglSekarang + 1;
-  const tglLusa = tglSekarang + 2;
+
+  const tglSekarang= curDate.getDate();
+  const tglBesok  = tglSekarang+ 1;
+  const tglLusa   = tglSekarang+ 2;
+
   const displayMonth = month[curMonth];
-  const onPresDate = (date) => {
-    alert("tes" + date);
-  };
+
+  const onPresDate=(date)=>{
+    alert('tes '+ date)
+  }
+
   return (
     <SafeAreaView style={{ backgroundColor: "#261863", flex: 1 }}>
       <View style={style.containerTop}>
-        <View>
-          <Text style={style.textNameStyle}>Samanta Anna</Text>
+        <View >
+          <Text style={style.textNameStyle}>{nama}</Text>
+          <Text style={style.textWelcome}>{email}</Text>
         </View>
         <View>
-          <Image source={ICNotif} />
+          <Image
+            source={ICNotif}/>
         </View>
       </View>
       <View style={style.bodyContent}>
@@ -62,7 +69,27 @@ export default TaskScreen = ({ navigation }) => {
       </View>
       <View style={style.bodyContent2}>
         <ScrollView style={{ padding: 30 }}>
-          <Text style={style.textall}>All Task </Text>
+          <View style={{padding:15}}>
+            <Text style={{color:'white', textAlign: 'center', fontSize: 20}}>{displayMonth}</Text>
+            <View style={{marginTop:10, flexDirection:'row', justifyContent:'space-between', paddingLeft:50, paddingRight:50}}>
+              <MiniCard 
+                isActive={true} 
+                day={hariSekarang}
+                date={tglSekarang}
+                onPress={()=>onPresDate(tglSekarang)}/>
+
+              <MiniCard
+                day={hariBesok}
+                date={tglBesok}
+                onPress={()=>onPresDate(tglBesok)}/>
+
+              <MiniCard
+                day={hariLusa}
+                date={tglLusa}
+                onPress={()=>onPresDate(tglLusa)}/>
+                
+            </View>
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
