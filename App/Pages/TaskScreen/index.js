@@ -8,36 +8,44 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
-import { ICNotif, IcPensil, IcTask } from "../../assets";
-import { MiniCard } from "../../Componets";
+import { ICNotif, IcPensil, IcTask, IconMail } from "../../assets";
 import { useSelector, useDispatch } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 
+
+const CardView = (props)=>{
+  return (
+    <View style={{
+      flexDirection:"row", 
+      padding:14,
+      borderBottomWidth:2,
+      borderBottomColor:"#F9F9F9", 
+      backgroundColor:"white"}}>
+      <View style={{flex:1, alignContent:"center"}}>
+          <Image source={IconMail} style={{width: 30, height: 30}}/>
+      </View>
+      <View style={{flex:5}}>
+        <Text style={{fontSize:16, fontWeight:"bold"}}>{props.title}</Text>
+        <Text>{props.value}</Text>
+      </View>
+    </View>
+  )
+}
+
 export default TaskScreen = ({ navigation }) => {
+  const summary = useSelector((state) => state.summary)
+  const activedate = useSelector((state) => state.activedate)
+  const timestart = useSelector((state) => state.timestart)
+  const timeend = useSelector((state) => state.timeend)
   const nama = useSelector((state) => state.user.nama)
   const email = useSelector((state) => state.user.email)
-  const month = useSelector((state) => state.config.bulan)
-  const day = useSelector((state) => state.config.hari)
-  const curDate = new Date();
-  const hari = curDate.getDay();
-  const curMonth = curDate.getMonth();
-
-  const hariSekarang = day[hari];
-  const hariBesok = day[hari + 1];
-  const hariLusa = day[hari + 2];
-
-  const tglSekarang= curDate.getDate();
-  const tglBesok  = tglSekarang+ 1;
-  const tglLusa   = tglSekarang+ 2;
-
-  const displayMonth = month[curMonth];
-
-  const onPresDate=(date)=>{
-    alert('tes '+ date)
-  }
+  const dispatch = useDispatch()
+  
 
   return (
+
+    
     <SafeAreaView style={{ backgroundColor: "#261863", flex: 1 }}>
       <View style={style.containerTop}>
         <View >
@@ -70,26 +78,13 @@ export default TaskScreen = ({ navigation }) => {
       <View style={style.bodyContent2}>
         <ScrollView style={{ padding: 30 }}>
           <View style={{padding:15}}>
-            <Text style={{color:'white', textAlign: 'center', fontSize: 20}}>{displayMonth}</Text>
-            <View style={{marginTop:10, flexDirection:'row', justifyContent:'space-between', paddingLeft:50, paddingRight:50}}>
-              <MiniCard 
-                isActive={true} 
-                day={hariSekarang}
-                date={tglSekarang}
-                onPress={()=>onPresDate(tglSekarang)}/>
-
-              <MiniCard
-                day={hariBesok}
-                date={tglBesok}
-                onPress={()=>onPresDate(tglBesok)}/>
-
-              <MiniCard
-                day={hariLusa}
-                date={tglLusa}
-                onPress={()=>onPresDate(tglLusa)}/>
-                
-            </View>
-          </View>
+          <View style={{flex: 1}}>
+      <CardView title="Task" value={summary}/>
+      <CardView title="Active Date" value={activedate}/>
+      <CardView title="Time Start"  value={timestart}/>
+      <CardView title="Time End"  value={timeend}/>
+    </View>
+    </View>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -146,6 +141,7 @@ const style = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: 18,
+    paddingLeft: 15,
   },
   bodyContent: {
     height: 150,

@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 import {
   StyleSheet,
   View,
@@ -7,7 +8,6 @@ import {
   Image,
   Dimensions,
   ScrollView,
-  Button,
   Platform,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -15,6 +15,7 @@ import { IcDate, IcTime } from "../../assets";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 import { PrimaryButton } from "../../Componets";
+import { useSelector, useDispatch } from 'react-redux'
 
 export default AddNewScreen = ({ navigation }) => {
 
@@ -42,6 +43,36 @@ export default AddNewScreen = ({ navigation }) => {
     setMode(currentMode);
   }
 
+
+  //Const untuk API
+  const [summary, onChangeSummary] = React.useState(null);
+  const [activedate, onChangeActiveDate] = React.useState(null);
+  const [timestart, onChangeTimeStart] = React.useState(null);
+  const [timeend, onChangeTimeEnd] = React.useState(null);
+  const id = useSelector((state) => state.user.id)
+
+  const onCheckLogin =()=>{
+    axios.post('https://data.mongodb-api.com/app/data-yvczw/endpoint/data/v1/action/findOne',{
+        "dataSource": "Cluster0",
+        "database": "app_taskita",
+        "collection": "member",
+        "filter": { 
+          "userId": id,
+          "task": summary,
+          "active_date": activedate,
+          "time_start": timestart,
+          "time_end": timeend,
+        }
+    },{
+        headers:{
+            'api-key': 'zYwAQaYVJ2hdF6WVlhy4gFM7i6IOGAcAJ5lips8IYEjIkXjoksjPpuTBZvGjt4uC'
+        }
+    }).then(res=>{
+        navigation.replace('MainScreen')
+    })
+
+    }
+
   return (
     <SafeAreaView style={{ backgroundColor: "#261863", flex: 1 }}>     
       <View style={style.bodyContent}>
@@ -53,9 +84,11 @@ export default AddNewScreen = ({ navigation }) => {
               <TextInput
                 numberOfLines={4}
                 maxLength={120}
+                value={summary}
                 multiline
                 placeholder={"Type Sumary Task"}
                 style={style.inputText}
+                onChangeText={onChangeSummary}
               />
           </View>
 
@@ -63,7 +96,11 @@ export default AddNewScreen = ({ navigation }) => {
             <Text style={style.summary}>Date</Text>
             <View style={{ flexDirection: "row" }}>
             <TouchableOpacity onPress={()=> onChange(setText)}>
-                <Text numberOfLines={2} style={style.inputan}>{text}</Text>
+                <Text 
+                numberOfLines={2} 
+                style={style.inputan}
+                onChangeText={onChangeActiveDate}
+                >{text}</Text>
             </TouchableOpacity>
 
               <TouchableOpacity onPress={() => showMode('date')}>
@@ -78,7 +115,11 @@ export default AddNewScreen = ({ navigation }) => {
             <Text style={style.summary}>Time Start</Text>
             <View style={{ flexDirection: "row" }}>
             <TouchableOpacity onPress={()=> onChange(setText1)}>
-                <Text numberOfLines={2} style={style.inputan}>{text1}</Text>
+                <Text 
+                numberOfLines={2} 
+                style={style.inputan}
+                onChangeText={onChangeTimeStart}
+                >{text1}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => showMode("time")}>
@@ -93,9 +134,12 @@ export default AddNewScreen = ({ navigation }) => {
             <Text style={style.summary}>Time End</Text>
             <View style={{ flexDirection: "row" }}>
             <TouchableOpacity onPress={()=> onChange(setText1)}>
-                <Text numberOfLines={2} style={style.inputan}>{text1}</Text>
+                <Text 
+                numberOfLines={2} 
+                style={style.inputan}
+                onChangeText={onChangeTimeEnd}
+                >{text1}</Text>
               </TouchableOpacity>
-              
               
               <TouchableOpacity onPress={() => showMode("time")}>
                 <View style={style.iconbg}>
@@ -116,8 +160,8 @@ export default AddNewScreen = ({ navigation }) => {
           />)}
 
           <PrimaryButton
-            onPress={() => navigation.navigate("MainScreen")}
             customeStyle={style.btnSubmitStyle}
+            onPress={()=>onCheckLogin()}
             title="Submit Data"
           />
 
