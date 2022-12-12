@@ -116,6 +116,7 @@ export default AddNewScreen = ({ navigation }) => {
           />)}
 
           <PrimaryButton
+            onPress={() => navigation.navigate("MainScreen")}
             customeStyle={style.btnSubmitStyle}
             title="Submit Data"
           />
