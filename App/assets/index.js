@@ -20,6 +20,7 @@ import IcPensil from './img/IcPensil.png';
 import IcTime from './img/IcTime.png';
 import IcDate from './img/IcDate.png';
 import IcTask from './img/IcTask.png';
+import IcCalendarCheck from './img/IcCalendarCheck.png';
 
 export {
     IconSplash,
@@ -44,4 +45,5 @@ export {
     IcTime,
     IcDate,
     IcTask,
+    IcCalendarCheck,
 };

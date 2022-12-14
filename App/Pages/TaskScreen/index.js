@@ -8,7 +8,7 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
-import { ICNotif, IcPensil, IcTask, IconMail } from "../../assets";
+import { ICNotif, IcPensil, IcTask, IconMail, IcCalendarCheck } from "../../assets";
 import { useSelector, useDispatch } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
 const WINDOW_HEIGHT = Dimensions.get("window").height;
@@ -26,7 +26,7 @@ const CardView = (props)=>{
           <Image source={IconMail} style={{width: 30, height: 30}}/>
       </View>
       <View style={{flex:5}}>
-        <Text style={{fontSize:16, fontWeight:"bold"}}>{props.title}</Text>
+        <Text style={{fontSize:16, fontWeight:"bold", }}>{props.title}</Text>
         <Text>{props.value}</Text>
       </View>
     </View>
@@ -34,19 +34,20 @@ const CardView = (props)=>{
 }
 
 export default TaskScreen = ({ navigation }) => {
-  const summary = useSelector((state) => state.summary)
-  const activedate = useSelector((state) => state.activedate)
-  const timestart = useSelector((state) => state.timestart)
-  const timeend = useSelector((state) => state.timeend)
+  const summary = useSelector((state) => state.task.summary)
+  const activedate = useSelector((state) => state.task.activedate)
+  const timestart = useSelector((state) => state.task.timestart)
+  const timeend = useSelector((state) => state.task.timeend)
   const nama = useSelector((state) => state.user.nama)
   const email = useSelector((state) => state.user.email)
   const dispatch = useDispatch()
   
 
   return (
-
+    
     
     <SafeAreaView style={{ backgroundColor: "#261863", flex: 1 }}>
+
       <View style={style.containerTop}>
         <View >
           <Text style={style.textNameStyle}>{nama}</Text>
@@ -57,34 +58,52 @@ export default TaskScreen = ({ navigation }) => {
             source={ICNotif}/>
         </View>
       </View>
+
       <View style={style.bodyContent}>
+
         <ScrollView style={{ padding: 30 }}>
           <View style={{ flexDirection: "row" }}>
+
             <TouchableOpacity
               style={{ flexDirection: "row" }}
               onPress={() => navigation.navigate("AddNewScreen")}>
               <Image source={IcPensil} style={style.pensil} />
               <Text style={style.new}>Add New</Text>
             </TouchableOpacity>
+
             <TouchableOpacity
               style={{ flexDirection: "row" }}
               onPress={() => navigation.navigate("")}>
               <Image source={IcTask} style={style.task} />
               <Text style={style.filter}>Filter Task</Text>
             </TouchableOpacity>
+
           </View>
         </ScrollView>
+      
+
+      
       </View>
       <View style={style.bodyContent2}>
         <ScrollView style={{ padding: 30 }}>
-          <View style={{padding:15}}>
-          <View style={{flex: 1}}>
-      <CardView title="Task" value={summary}/>
-      <CardView title="Active Date" value={activedate}/>
-      <CardView title="Time Start"  value={timestart}/>
-      <CardView title="Time End"  value={timeend}/>
-    </View>
-    </View>
+          
+        <View style={{flexDirection: 'row'}}>
+          <View style={{marginLeft: 0, marginRight: -90, height: 110, width:90, marginTop: 18}}>
+            <Image source={IcCalendarCheck} style={{height:30, width:30, marginLeft: 20}}></Image>
+              <Text>10 April 22</Text>
+              <Text style={{marginLeft: 15, color:'#777878'}}>12.00</Text>
+          </View>
+            <View style={style.item}>
+                <View style={{flexDirection: 'row'}}>
+                    <Image source={ICNotif} style={style.gambar1}/>
+                        <View style={{flexDirection: 'column'}}>
+                            <Text style={style.teks1}>MEETING WITH CEO</Text>
+                        </View>
+                </View>
+            </View>
+        </View>
+        
+
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -155,5 +174,28 @@ const style = StyleSheet.create({
     backgroundColor: "white",
     borderTopRightRadius: 50,
     borderTopLeftRadius: 50,
+  },
+  item: {
+      backgroundColor: "#ECF0F1",
+      padding: 15,
+      borderColor: 'black',
+      borderRadius: 30,
+      flexDirection: 'column',
+      height: 110,
+      width: 330,
+      marginLeft: 90,
+      marginRight: 0,
+      
+  },
+  gambar1: {
+      borderRadius: 20,
+      height:80,
+      width:80,
+  },
+  teks1: {
+      fontWeight: 'bold',
+      fontSize: 18,
+      top: 25,
+      marginLeft: 10
   },
 });

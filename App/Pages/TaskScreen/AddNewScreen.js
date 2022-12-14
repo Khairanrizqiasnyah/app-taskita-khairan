@@ -22,8 +22,8 @@ export default AddNewScreen = ({ navigation }) => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const [text, setText] = useState("INI TEKS NJING");
-  const [text1, setText1] = useState("INI TEKS NJING");
+  const [text, setText] = useState("Date");
+  const [text1, setText1] = useState("Time");
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -42,6 +42,11 @@ export default AddNewScreen = ({ navigation }) => {
     setShow(true);
     setMode(currentMode);
   }
+  const showMode2 = (currentMode2) => {
+    setShow(true);
+    setMode(currentMode2);
+  }
+  
 
 
   //Const untuk API
@@ -52,12 +57,12 @@ export default AddNewScreen = ({ navigation }) => {
   const id = useSelector((state) => state.user.id)
 
   const onCheckLogin =()=>{
-    axios.post('https://data.mongodb-api.com/app/data-yvczw/endpoint/data/v1/action/findOne',{
+    axios.post('https://data.mongodb-api.com/app/data-yvczw/endpoint/data/v1/action/insertOne',{
         "dataSource": "Cluster0",
         "database": "app_taskita",
-        "collection": "member",
+        "collection": "task",
         "filter": { 
-          "userId": id,
+          "uid": id,
           "task": summary,
           "active_date": activedate,
           "time_start": timestart,
@@ -95,13 +100,13 @@ export default AddNewScreen = ({ navigation }) => {
           <View>
             <Text style={style.summary}>Date</Text>
             <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity onPress={()=> onChange(setText)}>
-                <Text 
-                numberOfLines={2} 
+            
+                <Text
+                numberOfLines={2}
                 style={style.inputan}
                 onChangeText={onChangeActiveDate}
                 >{text}</Text>
-            </TouchableOpacity>
+            
 
               <TouchableOpacity onPress={() => showMode('date')}>
                 <View style={style.iconbg1}>
@@ -114,13 +119,13 @@ export default AddNewScreen = ({ navigation }) => {
           <View>
             <Text style={style.summary}>Time Start</Text>
             <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity onPress={()=> onChange(setText1)}>
+            
                 <Text 
                 numberOfLines={2} 
                 style={style.inputan}
                 onChangeText={onChangeTimeStart}
                 >{text1}</Text>
-              </TouchableOpacity>
+              
 
               <TouchableOpacity onPress={() => showMode("time")}>
                 <View style={style.iconbg}>
@@ -133,13 +138,13 @@ export default AddNewScreen = ({ navigation }) => {
           <View>
             <Text style={style.summary}>Time End</Text>
             <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity onPress={()=> onChange(setText1)}>
+            
                 <Text 
                 numberOfLines={2} 
                 style={style.inputan}
                 onChangeText={onChangeTimeEnd}
                 >{text1}</Text>
-              </TouchableOpacity>
+              
               
               <TouchableOpacity onPress={() => showMode("time")}>
                 <View style={style.iconbg}>
